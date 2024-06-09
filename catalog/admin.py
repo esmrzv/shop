@@ -4,7 +4,7 @@ from catalog.models import Category, Product
 
 @admin.register(Category)
 class CatalogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description')
+    list_display = ('id', 'name')
 
 
 @admin.register(Product)
