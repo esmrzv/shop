@@ -11,11 +11,11 @@
                 </div>
                 <img src="{{ product.preview | media_filter }}">
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title">{{product.price}}</h1>
+                    <h1 class="card-title pricing-card-title">{{product.price}}₽</h1>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>{{product.description | truncatechars:100}}</li>
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">подробнее</button>
+                    <a class="btn btn-primary" href='{% url "catalog:product_detail" product.pk %}' role="button">подробнее</a>
                 </div>
             </div>
         </div>
