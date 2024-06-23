@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+{% load my_tags_blog %}
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col-6">
+            <div class="card mb-4 box-shadow">
+                <h1 class="my-0 font-weight-normal">{{object.title}} ({{ object.slug }}) </h1>
+                <img src="{{ object.preview | media_filter }}">
+                <div class="card-body">
+
+
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <p> {{object.text}} </p>
+                    </ul>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <p> Просмотры {{ blog.views }} </p>
+                    </ul>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>{{object.description}}</li>
+                    </ul>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li> Дата создания {{object.created_at}}</li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

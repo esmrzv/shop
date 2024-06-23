@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+{% load my_tags_blog %}
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+{% for blog in object_list %}
+        <div class="col-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{blog.title}}</h4>
+                </div>
+                <img src="{{ blog.preview | media_filter }}">
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>{{ blog.text | truncatechars }}</li>
+                    </ul>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                          <p> Просмотры {{ blog.views }} </p>
+                    </ul>
+                    <a class="btn btn-primary" href="{% url 'blog:blog_detail' blog.pk %}" role="button">Просмотр</a>
+                    <a class="btn btn-primary" href="{% url 'blog:blog_update' blog.pk %}" role="button">Редактировать</a>
+                    <a class="btn btn-primary" href="{% url 'blog:blog_delete' blog.pk %}" role="button">Удалить</a>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+    </div>
+ </div>
+{% endblock %}
