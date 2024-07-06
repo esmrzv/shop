@@ -16,6 +16,7 @@
                         <li>{{product.description | truncatechars:100}}</li>
                     </ul>
                     <a class="btn btn-primary" href='{% url "catalog:product_detail" product.pk %}' role="button">подробнее</a>
+                    <a class="btn btn-primary" href='{% url "catalog:product_update" product.pk %}' role="button">редактировать</a>
                 </div>
             </div>
         </div>

@@ -1,14 +1,20 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
+from django.views.generic import (
+    ListView,
+    UpdateView,
+    CreateView,
+    DetailView,
+    DeleteView,
+)
 from blog.models import Blog
 from pytils.translit import slugify
 
 
 class BlogCreateView(CreateView):
     model = Blog
-    fields = ('title', 'slug', 'text', 'preview', 'publication')
-    success_url = reverse_lazy('blog:blog_list')
+    fields = ("title", "slug", "text", "preview", "publication")
+    success_url = reverse_lazy("blog:blog_list")
 
     def form_valid(self, form):
         if form.is_valid():
@@ -29,16 +35,16 @@ class BlogListView(ListView):
 
 class BlogUpdateView(UpdateView):
     model = Blog
-    fields = ('title', 'slug', 'text', 'preview', 'publication')
-    success_url = reverse_lazy('blog: blog_list')
+    fields = ("title", "slug", "text", "preview", "publication")
+    success_url = reverse_lazy("blog: blog_list")
 
     def get_success_url(self):
-        return reverse('blog:blog_detail', args=[self.kwargs.get('pk')])
+        return reverse("blog:blog_detail", args=[self.kwargs.get("pk")])
 
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('blog:blog_list')
+    success_url = reverse_lazy("blog:blog_list")
 
 
 class BlogDetailView(DetailView):
@@ -49,4 +55,3 @@ class BlogDetailView(DetailView):
         self.object.views += 1
         self.object.save()
         return self.object
-
