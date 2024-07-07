@@ -1,9 +1,14 @@
 from django.db import models
 
+NULLABLE = {
+    'null': True,
+    'blank': True
+}
+
 
 class Product(models.Model):
     name = models.CharField(max_length=50, verbose_name="Наименование продукта")
-    description = models.TextField(verbose_name="Описание продукта")
+    description = models.TextField(verbose_name="Описание продукта", **NULLABLE)
     preview = models.ImageField(
         upload_to="products/photo", blank=True, null=True, verbose_name="Превью"
     )
@@ -36,3 +41,17 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
+    version_name = models.CharField(max_length=50, verbose_name="Наименование версии")
+    version_number = models.IntegerField(verbose_name="Номер версии")
+    is_active = models.BooleanField(default=True, verbose_name="Активная версия")
+
+    def __str__(self):
+        return f"{self.version_name} {self.version_number}"
+
+    class Meta:
+        verbose_name = "Версия"
+        verbose_name_plural = "Версии"
