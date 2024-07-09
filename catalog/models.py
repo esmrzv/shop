@@ -1,9 +1,6 @@
 from django.db import models
 
-NULLABLE = {
-    'null': True,
-    'blank': True
-}
+NULLABLE = {"null": True, "blank": True}
 
 
 class Product(models.Model):
@@ -44,7 +41,9 @@ class Category(models.Model):
 
 
 class Version(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
+    product = models.ForeignKey(
+        Product, on_delete=models.SET_NULL, null=True, blank=True
+    )
     version_name = models.CharField(max_length=50, verbose_name="Наименование версии")
     version_number = models.IntegerField(verbose_name="Номер версии")
     is_active = models.BooleanField(default=True, verbose_name="Активная версия")
