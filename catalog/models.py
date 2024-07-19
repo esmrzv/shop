@@ -22,6 +22,8 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
 
+    is_published = models.BooleanField(default=False, verbose_name="опубликавано")
+
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, **NULLABLE, verbose_name="Владелец")
 
     def __str__(self):
@@ -30,6 +32,11 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+        permissions = [
+            ('can_change_is_published', 'Can change is published'),
+            ('can_change_description', 'Can change description'),
+            ('can_change_category', 'Can change category'),
+        ]
 
 
 class Category(models.Model):

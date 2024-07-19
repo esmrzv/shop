@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.http import HttpResponseForbidden
 from django.urls import reverse_lazy
@@ -11,7 +12,7 @@ from django.views.generic import (
     DeleteView,
 )
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductManageForm
 from catalog.models import Product, Version
 
 
@@ -71,6 +72,15 @@ class ProductUpdateView(UpdateView, OwnerRequiredMixin):
             formset.save()
         return super().form_valid(form)
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if (user.has_perm('catalog.can_change_is_published') and user.has_perm('catalog.can_change_description') and
+                user.has_perm('catalog.can_change_category')):
+            return ProductManageForm
+        raise PermissionDenied
+
 
 class ProductListView(ListView):
     model = Product
@@ -87,8 +97,15 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView, OwnerRequiredMixin):
+class ProductDetailView(DetailView, LoginRequiredMixin, OwnerRequiredMixin):
     model = Product
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        return PermissionDenied
 
 
 class ProductDeleteView(DeleteView, OwnerRequiredMixin):
@@ -99,6 +116,3 @@ class ProductDeleteView(DeleteView, OwnerRequiredMixin):
 class ContactsView(TemplateView):
     template_name = "catalog/contacts.html"
 
-# class VersionListView(ListView):
-#     model = Version
-#     form_class = VersionForm
