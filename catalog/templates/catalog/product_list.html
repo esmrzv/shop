@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row text-center">
             {% for product in object_list %}
-                <div class="col-4">
+                <div class="col-3">
                     <div class="card mb-4 box-shadow">
                         <div class="card-header">
                             <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
@@ -13,7 +13,7 @@
                         <div class="card-body">
                             <h1 class="card-title pricing-card-title">{{ product.price }}₽</h1>
                             <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                                <li>{{ product.description | truncatechars:100 }}</li>
+                                <li>{{ product.description | truncatechars:10 }}</li>
                             </ul>
                             <p> Активная версия: {{ product.active_version }} </p>
                             <a class="btn btn-primary" href='{% url "catalog:product_detail" product.pk %}'
