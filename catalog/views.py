@@ -13,7 +13,7 @@ from django.views.generic import (
 )
 
 from catalog.forms import ProductForm, VersionForm, ProductManageForm
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
 
 
 class OwnerRequiredMixin(AccessMixin):
@@ -29,6 +29,10 @@ class OwnerRequiredMixin(AccessMixin):
 
     def handle_no_permission(self):
         return HttpResponseForbidden("У вас нет доступа к редактированию, удалению продуктов.")
+
+
+class CategoryListView(OwnerRequiredMixin, ListView):
+    model = Category
 
 
 class ProductCreateView(CreateView, LoginRequiredMixin):
@@ -115,4 +119,3 @@ class ProductDeleteView(DeleteView, OwnerRequiredMixin):
 
 class ContactsView(TemplateView):
     template_name = "catalog/contacts.html"
-
